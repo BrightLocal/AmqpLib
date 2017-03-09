@@ -170,10 +170,9 @@ abstract class AMQPAbstractCollection implements \Iterator
      */
     final protected function encodeCollection(array $val)
     {
-        foreach ($val as &$v) {
-            $v = $this->encodeValue($v);
+        foreach ($val as $k=>$v) {
+            $val[$k] = $this->encodeValue($v);
         }
-        unset($v);
 
         return $val;
     }
@@ -184,10 +183,9 @@ abstract class AMQPAbstractCollection implements \Iterator
      */
     final protected function decodeCollection(array $val)
     {
-        foreach ($val as &$v) {
-            $v = $this->decodeValue($v[1], $v[0]);
+        foreach ($val as $k=>$v) {
+            $val[$k] = $this->decodeValue($v[1], $v[0]);
         }
-        unset($v);
 
         return $val;
     }
@@ -237,7 +235,7 @@ abstract class AMQPAbstractCollection implements \Iterator
 
     /**
      * @param mixed $val
-     * @param integer $type
+     * @param int $type
      * @return array|bool|\DateTime|null
      */
     protected function decodeValue($val, $type)
@@ -392,7 +390,7 @@ abstract class AMQPAbstractCollection implements \Iterator
     }
 
     /**
-     * @param integer $type
+     * @param int $type
      * @return string
      */
     final public static function getSymbolForDataType($type)
